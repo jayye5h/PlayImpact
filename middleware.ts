@@ -48,6 +48,24 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(url)
   }
 
+  if (pathname.startsWith('/admin')) {
+    const email = user?.email?.toLowerCase() || ''
+    const allowed = [
+      process.env.ADMIN_EMAIL,
+      ...(process.env.ADMIN_EMAILS || '').split(','),
+    ]
+      .map((value) => value?.trim().toLowerCase())
+      .filter(Boolean)
+
+    if (!email || !allowed.includes(email)) {
+      const url = request.nextUrl.clone()
+      url.pathname = '/auth/login'
+      url.searchParams.set('next', pathname)
+      url.searchParams.set('error', 'Please sign in with the admin account')
+      return NextResponse.redirect(url)
+    }
+  }
+
   return response
 }
 

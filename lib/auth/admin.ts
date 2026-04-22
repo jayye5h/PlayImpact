@@ -1,14 +1,19 @@
 import { createSupabaseServerClient } from '@/lib/supabase/server'
 
+function getConfiguredAdminEmails() {
+  const emails = [
+    process.env.ADMIN_EMAIL,
+    ...(process.env.ADMIN_EMAILS || '').split(','),
+  ]
+
+  return emails
+    .map((email) => email?.trim().toLowerCase())
+    .filter((email): email is string => Boolean(email))
+}
+
 export function isAdminEmail(email: string | null | undefined) {
   if (!email) return false
-  const raw = process.env.ADMIN_EMAILS || ''
-  const allowed = raw
-    .split(',')
-    .map((e) => e.trim().toLowerCase())
-    .filter(Boolean)
-
-  return allowed.includes(email.toLowerCase())
+  return getConfiguredAdminEmails().includes(email.toLowerCase())
 }
 
 export async function requireAdmin() {
@@ -18,7 +23,7 @@ export async function requireAdmin() {
     error,
   } = await supabase.auth.getUser()
 
-  if (error || !user) {
+  if (error || !user || !isAdminEmail(user.email)) {
     throw new Error('Not authorized')
   }
 
