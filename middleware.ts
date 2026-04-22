@@ -50,18 +50,16 @@ export async function middleware(request: NextRequest) {
 
   if (pathname.startsWith('/admin')) {
     const email = user?.email?.toLowerCase() || ''
-    const allowed = [
-      process.env.ADMIN_EMAIL,
-      ...(process.env.ADMIN_EMAILS || '').split(','),
-    ]
+    const isCustomAdmin = user?.app_metadata?.custom_admin === true
+    const allowed = [process.env.ADMIN_EMAIL]
       .map((value) => value?.trim().toLowerCase())
       .filter(Boolean)
 
-    if (!email || !allowed.includes(email)) {
+    if (!email || !allowed.includes(email) || !isCustomAdmin) {
       const url = request.nextUrl.clone()
       url.pathname = '/auth/login'
       url.searchParams.set('next', pathname)
-      url.searchParams.set('error', 'Please sign in with the admin account')
+      url.searchParams.set('error', 'Please sign in with the custom admin email and password')
       return NextResponse.redirect(url)
     }
   }
