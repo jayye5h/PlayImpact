@@ -1,0 +1,101 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+
+@custom-variant dark (&:is(.dark *));
+
+:root {
+  /* Premium Gaming Platform Color System */
+  --primary-bg: #0A0A0F;
+  --secondary-bg: #1A1033;
+  --neon-blue: #00D1FF;
+  --gold: #D4AF37;
+  --text-primary: #E5E7EB;
+  --glass-surface: rgba(255, 255, 255, 0.05);
+  
+  /* Fallback to old tokens for compatibility */
+  --background: #0A0A0F;
+  --foreground: #E5E7EB;
+  --card: rgba(26, 16, 51, 0.4);
+  --card-foreground: #E5E7EB;
+  --popover: #0A0A0F;
+  --popover-foreground: #E5E7EB;
+  --primary: #00D1FF;
+  --primary-foreground: #0A0A0F;
+  --secondary: #1A1033;
+  --secondary-foreground: #E5E7EB;
+  --muted: rgba(255, 255, 255, 0.1);
+  --muted-foreground: #A0A0A8;
+  --accent: #D4AF37;
+  --accent-foreground: #0A0A0F;
+  --destructive: #FF4444;
+  --destructive-foreground: #FFFFFF;
+  --border: rgba(255, 255, 255, 0.1);
+  --input: rgba(26, 16, 51, 0.6);
+  --ring: #00D1FF;
+  --radius: 0.625rem;
+}
+
+@layer base {
+  body {
+    background: linear-gradient(135deg, #0A0A0F 0%, #1A1033 100%);
+    background-attachment: fixed;
+    color: #E5E7EB;
+    overflow-x: hidden;
+  }
+
+  @media (max-width: 767px) {
+    body {
+      background-attachment: scroll;
+    }
+  }
+  
+  /* Premium Glassmorphism Style */
+  .glass {
+    background: rgba(255, 255, 255, 0.05);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  /* Neon Glow Effects */
+  .neon-glow {
+    box-shadow: 0 0 20px rgba(0, 209, 255, 0.5), 0 0 40px rgba(0, 209, 255, 0.3);
+  }
+  
+  .neon-glow-lg {
+    box-shadow: 0 0 40px rgba(0, 209, 255, 0.6), 0 0 80px rgba(0, 209, 255, 0.4);
+  }
+  
+  .gold-glow {
+    box-shadow: 0 0 20px rgba(212, 175, 55, 0.5), 0 0 40px rgba(212, 175, 55, 0.3);
+  }
+  
+  /* Text Glow */
+  .text-neon-glow {
+    color: #00D1FF;
+    text-shadow: 0 0 10px rgba(0, 209, 255, 0.6);
+  }
+  
+  .text-gold-glow {
+    color: #D4AF37;
+    text-shadow: 0 0 10px rgba(212, 175, 55, 0.6);
+  }
+  
+  /* Smooth animations */
+  @keyframes float {
+    0%, 100% { transform: translateY(0px); }
+    50% { transform: translateY(-20px); }
+  }
+  
+  @keyframes pulse-glow {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.7; }
+  }
+  
+  .float {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+}
